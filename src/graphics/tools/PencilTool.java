@@ -34,22 +34,19 @@ public class PencilTool extends AbstractTool{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("Pencil Tool: Mouse CLicked: " + e.getX() + "," + e.getY());
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		temporaryImage = canvas.getTemporaryImage();
 		path = new Path();
-		path.addPoint(Mouse.getCanvasPoint(e.getPoint()));
+		path.addPoint(Mouse.getCanvasPoint(canvas, e.getPoint()));
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		path.addPoint(Mouse.getCanvasPoint(e.getPoint()));
+		path.addPoint(Mouse.getCanvasPoint(canvas, e.getPoint()));
 		updateGraphics();
 		canvas.applyTemporaryImage();
 		
@@ -71,7 +68,7 @@ public class PencilTool extends AbstractTool{
 	public void mouseDragged(MouseEvent e) {
 		if(path != null){
 			//System.out.println(path);
-			path.addPoint(Mouse.getCanvasPoint(e.getPoint()));
+			path.addPoint(Mouse.getCanvasPoint(canvas, e.getPoint()));
 			updateGraphics();
 		}
 	}

@@ -12,7 +12,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
+import sun.org.mozilla.javascript.internal.annotations.JSConstructor;
 import system.FileChooser;
 import system.ImageFileFilter;
 
@@ -26,6 +28,7 @@ public class DrawWindow extends JFrame{
 	
 	public static FileChooser fileChooser;
 	public Canvas canvas;
+	public JScrollPane scrollCanvas;
 	public ToolManager toolManager;
 	
 	public DrawWindow(){
@@ -63,8 +66,9 @@ public class DrawWindow extends JFrame{
 		
 		this.setMenuBar(menuBar);
 		canvas = new Canvas();
+		this.scrollCanvas = new JScrollPane(canvas, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		this.toolManager= new ToolManager(canvas);
-		this.getContentPane().add(canvas);
+		this.getContentPane().add(scrollCanvas);
 	}
 	private void openFile(){
 		File file = fileChooser.openDialog(this);

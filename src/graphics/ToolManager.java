@@ -14,14 +14,16 @@ import javax.swing.JPanel;
 public class ToolManager extends JPanel{
 	private Map<ToolName, AbstractTool>toolBelt;
 	private ToolName currentToolKey;
+	private Canvas canvas;
 	
-	public ToolManager(){
+	public ToolManager(Canvas canvas){
 		toolBelt = new HashMap<ToolName, AbstractTool>();
+		this.canvas = canvas;
 		initializeTools();
 	}
 	private void initializeTools(){
-		PencilTool pencil = new PencilTool(ToolName.PENCIL);
-		EraserTool eraser = new EraserTool(ToolName.ERASER);
+		PencilTool pencil = new PencilTool(ToolName.PENCIL, canvas);
+		EraserTool eraser = new EraserTool(ToolName.ERASER, canvas);
 		registerTools(pencil, eraser);
 	}
 	
@@ -30,18 +32,18 @@ public class ToolManager extends JPanel{
 			toolBelt.put(tool.name, tool);
 		}
 	}
-	public void selectTool(Component component, ToolName key){
-		if(component == null) return;
+	public void selectTool(ToolName key){
+		if(canvas == null) return;
 		
 		if(currentToolKey != null){
 			AbstractTool currentTool = toolBelt.get(currentToolKey);
-			component.removeMouseListener(currentTool);
-			component.removeMouseMotionListener(currentTool);
+			canvas.removeMouseListener(currentTool);
+			canvas.removeMouseMotionListener(currentTool);
 		}
 		if(key != null){
 			AbstractTool newTool = toolBelt.get(key);
-			component.addMouseListener(newTool);
-			component.addMouseMotionListener(newTool);
+			canvas.addMouseListener(newTool);
+			canvas.addMouseMotionListener(newTool);
 			currentToolKey = key;
 		}
 	}

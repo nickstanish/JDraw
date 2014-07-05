@@ -52,17 +52,18 @@ public class DrawWindow extends JFrame{
 		});
 		menuBar.pencil.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				toolManager.selectTool(canvas, ToolName.PENCIL);
+				toolManager.selectTool(ToolName.PENCIL);
 			}
 		});
 		menuBar.eraser.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				toolManager.selectTool(canvas, ToolName.ERASER);
+				toolManager.selectTool(ToolName.ERASER);
 			}
 		});
-		this.toolManager= new ToolManager();
+		
 		this.setMenuBar(menuBar);
 		canvas = new Canvas();
+		this.toolManager= new ToolManager(canvas);
 		this.getContentPane().add(canvas);
 	}
 	private void openFile(){

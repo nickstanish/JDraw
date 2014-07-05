@@ -1,12 +1,35 @@
 package graphics.tools;
 
+import graphics.Canvas;
+import graphics.Path;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
+import utils.Mouse;
 
 public class EraserTool extends AbstractTool{
-
-	public EraserTool(ToolName name) {
-		super(name);
-		// TODO Auto-generated constructor stub
+	BufferedImage temporaryImage;
+	Path path;
+	boolean drawing = false;
+	
+	public void updateGraphics(){
+		Graphics2D g = (Graphics2D)temporaryImage.createGraphics();
+		g.setColor(new Color(0, 0, 0, 0));
+		g.fillRect(0, 0, temporaryImage.getWidth(), temporaryImage.getHeight());
+		g.setColor(Color.white);
+		BasicStroke stroke = new BasicStroke(10, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+		g.setStroke(stroke);
+		path.color = Color.white;
+		path.draw(g);
+		g.dispose();
+	}
+	
+	public EraserTool(ToolName name, Canvas canvas) {
+		super(name, canvas);
 	}
 
 	@Override
@@ -18,13 +41,17 @@ public class EraserTool extends AbstractTool{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		temporaryImage = canvas.getTemporaryImage();
+		path = new Path();
+		path.addPoint(Mouse.getCanvasPoint(e.getPoint()));
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		path.addPoint(Mouse.getCanvasPoint(e.getPoint()));
+		updateGraphics();
+		canvas.applyTemporaryImage();
 		
 	}
 
@@ -42,13 +69,16 @@ public class EraserTool extends AbstractTool{
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		if(path != null){
+			//System.out.println(path);
+			path.addPoint(Mouse.getCanvasPoint(e.getPoint()));
+			updateGraphics();
+		}
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

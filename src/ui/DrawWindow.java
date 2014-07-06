@@ -12,11 +12,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import sun.org.mozilla.javascript.internal.annotations.JSConstructor;
 import system.FileChooser;
 import system.ImageFileFilter;
+import utils.Files;
 
 public class DrawWindow extends JFrame{
 	
@@ -53,6 +55,11 @@ public class DrawWindow extends JFrame{
 				openFile();
 			}
 		});
+		menuBar.saveItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				saveFile();
+			}
+		});
 		menuBar.pencil.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				toolManager.selectTool(ToolName.PENCIL);
@@ -82,6 +89,26 @@ public class DrawWindow extends JFrame{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	private void saveFile(){
+		File file = fileChooser.saveDialog(this);
+		BufferedImage image = canvas.getImage();
+		if(file == null ){
+			System.err.println("cancelled");
+			return;
+		}
+		try {
+			String formatName = Files.validExtensions[0];
+			if(ImageFileFilter.isValidExtension(file)){
+				formatName = Files.getExtension(file);
+			}
+			else{
+				file = new File(file + "." + formatName);
+			}
+			ImageIO.write(image, formatName, file);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "Unable to save file: " + file);
 		}
 	}
 	

@@ -21,8 +21,9 @@ public class ImageFileFilter extends FileFilter {
 	public static boolean isValidExtension(File file){
 		String extension = Files.getExtension(file);
 		if(extension != null){
-			if(extension.equals("png")) return true;
-			if(extension.equals("gif")) return true;
+			for(String validExtension: Files.validExtensions){
+				if(extension.equals(validExtension)) return true;
+			}
 		}
 		return false;
 	}

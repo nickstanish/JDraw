@@ -13,4 +13,5 @@ public class Files {
 		}
 		return ext;
 	}
+	public static String[] validExtensions = {"png","gif"};
 }

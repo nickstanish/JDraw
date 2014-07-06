@@ -20,13 +20,10 @@ import javax.swing.Timer;
 public class Canvas extends JPanel{
 	private BufferedImage currentImage;
 	private BufferedImage temporaryImage;
-	public static int DEFAULT_WIDTH = 1024;
-	public static int DEFAULT_HEIGHT = 536;
-	/* Need some sort of scaling first..   */
-	//public static int DEFAULT_WIDTH = 1920;
-	//public static int DEFAULT_HEIGHT = 1080;
+	public static int DEFAULT_WIDTH = 1920;
+	public static int DEFAULT_HEIGHT = 1080;
 	public static int PADDING = 25;
-	private double scale = 2.0;
+	private double scale = 1.0;
 	
 	private Timer timer = new Timer((int)(1.0/30.0 * 1000), new ActionListener(){
 		public void actionPerformed(ActionEvent e){
@@ -54,8 +51,6 @@ public class Canvas extends JPanel{
 			public void actionPerformed(ActionEvent e){
 				scale += 0.25;
 				resetSize();
-				System.out.println(scale);
-				
 			}
 		};
 		getActionMap().put( "plus", plusAction );
@@ -63,13 +58,10 @@ public class Canvas extends JPanel{
 		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, InputEvent.CTRL_DOWN_MASK), "minus");
 		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, InputEvent.CTRL_DOWN_MASK), "minus");
 		AbstractAction minusAction = new AbstractAction(){
-			public void actionPerformed(ActionEvent e){
-				
+			public void actionPerformed(ActionEvent e){		
 				scale -= 0.25;
 				if(scale <= 0.25) scale = 0.25;
-				System.out.println(scale);
 				resetSize();
-				
 			}
 		};
 		getActionMap().put( "minus", minusAction );
@@ -91,6 +83,9 @@ public class Canvas extends JPanel{
 		this.currentImage = image;
 		temporaryImage = null;
 		resetSize();
+	}
+	public BufferedImage getImage(){
+		return currentImage;
 	}
 	public void paintComponent(Graphics g1){
 		Graphics2D g = (Graphics2D)g1;

@@ -43,28 +43,7 @@ public class Canvas extends JPanel{
 			g.fillRect(0, 0, this.currentImage.getWidth(), this.currentImage.getHeight());
 		}
 		resetSize();
-		
-		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ADD, InputEvent.CTRL_DOWN_MASK), "plus");
-		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK), "plus");
-		
-		AbstractAction plusAction = new AbstractAction(){
-			public void actionPerformed(ActionEvent e){
-				scale += 0.25;
-				resetSize();
-			}
-		};
-		getActionMap().put( "plus", plusAction );
-		
-		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, InputEvent.CTRL_DOWN_MASK), "minus");
-		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, InputEvent.CTRL_DOWN_MASK), "minus");
-		AbstractAction minusAction = new AbstractAction(){
-			public void actionPerformed(ActionEvent e){		
-				scale -= 0.25;
-				if(scale <= 0.25) scale = 0.25;
-				resetSize();
-			}
-		};
-		getActionMap().put( "minus", minusAction );
+		setShortcuts();
 		
 		timer.start();
 	}
@@ -74,10 +53,12 @@ public class Canvas extends JPanel{
 	}
 	public void applyTemporaryImage(){
 		Graphics2D g = (Graphics2D)currentImage.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		if(temporaryImage != null && g != null){
 			g.drawImage(temporaryImage, 0, 0, temporaryImage.getWidth(), temporaryImage.getHeight(), null);
 		}
 		g.dispose();
+		temporaryImage = null;
 	}
 	public void setImage(BufferedImage image){
 		this.currentImage = image;
@@ -119,5 +100,28 @@ public class Canvas extends JPanel{
 		int height = (int)(currentImage.getHeight() * scale) + PADDING * 2;
 		this.setPreferredSize(new Dimension(width, height));
 		this.revalidate();
+	}
+	private void setShortcuts(){
+		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ADD, InputEvent.CTRL_DOWN_MASK), "plus");
+		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK), "plus");
+		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, InputEvent.CTRL_DOWN_MASK), "minus");
+		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, InputEvent.CTRL_DOWN_MASK), "minus");
+		
+		AbstractAction plusAction = new AbstractAction(){
+			public void actionPerformed(ActionEvent e){
+				scale += 0.25;
+				resetSize();
+			}
+		};
+		AbstractAction minusAction = new AbstractAction(){
+			public void actionPerformed(ActionEvent e){		
+				scale -= 0.25;
+				if(scale <= 0.25) scale = 0.25;
+				resetSize();
+			}
+		};
+		
+		getActionMap().put( "plus", plusAction );
+		getActionMap().put( "minus", minusAction );
 	}
 }

@@ -7,17 +7,21 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import javax.swing.AbstractAction;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 import javax.swing.Timer;
-
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
 public class Canvas extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3816488261002483996L;
 	private BufferedImage currentImage;
 	private BufferedImage temporaryImage;
 	public static int DEFAULT_WIDTH = 1920;
@@ -43,7 +47,6 @@ public class Canvas extends JPanel{
 			g.fillRect(0, 0, this.currentImage.getWidth(), this.currentImage.getHeight());
 		}
 		resetSize();
-		setShortcuts();
 		
 		timer.start();
 	}
@@ -88,6 +91,7 @@ public class Canvas extends JPanel{
 	}
 	public void setScale(double scale){
 		this.scale = scale;
+		if(this.scale <= 0.25) this.scale = 0.25;
 	}
 	private int getScaledWidth(BufferedImage image){
 		return (int)(image.getWidth() * scale);
@@ -95,33 +99,10 @@ public class Canvas extends JPanel{
 	private int getScaledHeight(BufferedImage image){
 		return (int)(image.getHeight() * scale);
 	}
-	private void resetSize(){
+	public void resetSize(){
 		int width = (int)(currentImage.getWidth() * scale) + PADDING * 2;
 		int height = (int)(currentImage.getHeight() * scale) + PADDING * 2;
 		this.setPreferredSize(new Dimension(width, height));
 		this.revalidate();
-	}
-	private void setShortcuts(){
-		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ADD, InputEvent.CTRL_DOWN_MASK), "plus");
-		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK), "plus");
-		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, InputEvent.CTRL_DOWN_MASK), "minus");
-		getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, InputEvent.CTRL_DOWN_MASK), "minus");
-		
-		AbstractAction plusAction = new AbstractAction(){
-			public void actionPerformed(ActionEvent e){
-				scale += 0.25;
-				resetSize();
-			}
-		};
-		AbstractAction minusAction = new AbstractAction(){
-			public void actionPerformed(ActionEvent e){		
-				scale -= 0.25;
-				if(scale <= 0.25) scale = 0.25;
-				resetSize();
-			}
-		};
-		
-		getActionMap().put( "plus", plusAction );
-		getActionMap().put( "minus", minusAction );
 	}
 }

@@ -4,7 +4,11 @@ import graphics.Canvas;
 
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
 public abstract class AbstractTool implements MouseListener, MouseMotionListener{
 	public final ToolName name;
 	protected Canvas canvas;

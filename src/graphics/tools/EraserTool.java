@@ -10,7 +10,11 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import utils.Mouse;
-
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
 public class EraserTool extends AbstractTool{
 	BufferedImage temporaryImage;
 	Path path;

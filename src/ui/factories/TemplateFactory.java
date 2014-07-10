@@ -4,9 +4,11 @@ import java.awt.Component;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-
-import utils.Colors;
-
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
 public class TemplateFactory {
 	
 	private TemplateFactory(){

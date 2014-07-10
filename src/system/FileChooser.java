@@ -9,8 +9,17 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
 public class FileChooser extends JFileChooser{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6094125932801077317L;
+
 	public FileChooser(){
 		super();
 		this.setFileFilter(new ImageFileFilter());

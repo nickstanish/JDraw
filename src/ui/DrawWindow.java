@@ -2,27 +2,39 @@ package ui;
 
 import graphics.Canvas;
 import graphics.ToolManager;
-import graphics.tools.ToolName;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 
-import sun.org.mozilla.javascript.internal.annotations.JSConstructor;
 import system.FileChooser;
 import system.ImageFileFilter;
+import ui.factories.TemplateFactory;
 import utils.Files;
-
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
 public class DrawWindow extends JFrame{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9222809857750402480L;
 	public static int DEFAULT_WIDTH = 400;
 	public static int DEFAULT_HEIGHT = 400;
 	public static String DEFAULT_TITLE = "DrawWindow";
@@ -32,6 +44,8 @@ public class DrawWindow extends JFrame{
 	public Canvas canvas;
 	public JScrollPane scrollCanvas;
 	public ToolManager toolManager;
+	public DrawToolbar drawToolbar;
+	public JPanel container;
 	
 	public DrawWindow(){
 		this(DEFAULT_TITLE);
@@ -49,6 +63,7 @@ public class DrawWindow extends JFrame{
 	
 	private void initialize(){
 		DrawMenuBar menuBar = new DrawMenuBar();
+		
 		fileChooser = new FileChooser();
 		menuBar.openItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -60,22 +75,15 @@ public class DrawWindow extends JFrame{
 				saveFile();
 			}
 		});
-		menuBar.pencil.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				toolManager.selectTool(ToolName.PENCIL);
-			}
-		});
-		menuBar.eraser.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				toolManager.selectTool(ToolName.ERASER);
-			}
-		});
 		
-		this.setMenuBar(menuBar);
+		this.setJMenuBar(menuBar);
 		canvas = new Canvas();
 		this.scrollCanvas = new JScrollPane(canvas, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		this.toolManager= new ToolManager(canvas);
-		this.getContentPane().add(scrollCanvas);
+		drawToolbar = new DrawToolbar(this.toolManager);
+		this.container = TemplateFactory.createHorizontalLayout(drawToolbar, scrollCanvas);
+		this.getContentPane().add(container);
+		setShortcuts();
 	}
 	private void openFile(){
 		File file = fileChooser.openDialog(this);
@@ -110,6 +118,32 @@ public class DrawWindow extends JFrame{
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this, "Unable to save file: " + file);
 		}
+	}
+	private void setShortcuts(){
+		container.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ADD, InputEvent.CTRL_DOWN_MASK), "plus");
+		container.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK), "plus");
+		container.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, InputEvent.CTRL_DOWN_MASK), "minus");
+		container.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, InputEvent.CTRL_DOWN_MASK), "minus");
+		
+		AbstractAction plusAction = new AbstractAction(){
+			private static final long serialVersionUID = 7133234980171337805L;
+
+			public void actionPerformed(ActionEvent e){
+				canvas.setScale(canvas.getScale() + 0.25);
+				canvas.resetSize();
+			}
+		};
+		AbstractAction minusAction = new AbstractAction(){
+			private static final long serialVersionUID = -581488417415204226L;
+
+			public void actionPerformed(ActionEvent e){		
+				canvas.setScale(canvas.getScale() - 0.25);
+				canvas.resetSize();
+			}
+		};
+		
+		container.getActionMap().put( "plus", plusAction );
+		container.getActionMap().put( "minus", minusAction );
 	}
 	
 }

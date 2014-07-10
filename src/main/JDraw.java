@@ -1,15 +1,27 @@
 package main;
 
-import ui.DrawWindow;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 
+import ui.DrawWindow;
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
 public class JDraw {
 	
-	public JDraw(){
-		DrawWindow window = new DrawWindow();
-	}
-
 	public static void main(String[] args) {
-		JDraw jdraw = new JDraw();
+		for(LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()){
+			System.out.println(info.toString());
+		}
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+		new DrawWindow();
 	}
 
 }

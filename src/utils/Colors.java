@@ -1,7 +1,11 @@
 package utils;
 
 import java.awt.Color;
-
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
 public class Colors {
 	public static Color randomColor(){
 		float red = (float)Math.random();

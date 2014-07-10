@@ -1,23 +1,27 @@
 package ui;
 
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
-
-public class DrawMenuBar extends MenuBar{
-	public MenuItem openItem, saveItem, pencil, eraser;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
+public class DrawMenuBar extends JMenuBar{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4422054701603252754L;
+	public JMenuItem openItem, saveItem;
 	public DrawMenuBar(){
 		super();
-		Menu fileMenu = new Menu("File");
-		openItem = new MenuItem("Open");
-		saveItem = new MenuItem("Save");
-		pencil = new MenuItem("Pencil");
-		eraser = new MenuItem("Eraser");
+		JMenu fileMenu = new JMenu("File");
+		openItem = new JMenuItem("Open");
+		//TODO: openItem.setAccelerator(keyStroke..);
+		saveItem = new JMenuItem("Save");
 		fileMenu.add(openItem);
 		fileMenu.add(saveItem);
-		fileMenu.add(pencil);
-		fileMenu.add(eraser);
-		
 		
 		this.add(fileMenu);
 	}

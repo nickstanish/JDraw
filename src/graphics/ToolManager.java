@@ -5,13 +5,20 @@ import graphics.tools.EraserTool;
 import graphics.tools.PencilTool;
 import graphics.tools.ToolName;
 
-import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JPanel;
-
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
 public class ToolManager extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -250752377635101344L;
 	private Map<ToolName, AbstractTool>toolBelt;
 	private ToolName currentToolKey;
 	private Canvas canvas;

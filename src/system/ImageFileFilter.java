@@ -5,7 +5,11 @@ import java.io.File;
 import javax.swing.filechooser.FileFilter;
 
 import utils.Files;
-
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
 public class ImageFileFilter extends FileFilter {
 
 	@Override

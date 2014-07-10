@@ -1,7 +1,11 @@
 package utils;
 
 import java.io.File;
-
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
 public class Files {
 	public static String getExtension(File file) {
 		String ext = null;

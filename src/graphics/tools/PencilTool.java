@@ -11,7 +11,11 @@ import java.awt.image.BufferedImage;
 
 import utils.Mouse;
 
-
+/**
+ * 
+ * @author Nick Stanish
+ *
+ */
 public class PencilTool extends AbstractTool{
 	BufferedImage temporaryImage;
 	Path path;

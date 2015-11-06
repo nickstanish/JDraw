@@ -28,6 +28,7 @@ public class Canvas extends JPanel{
 	public static int DEFAULT_HEIGHT = 1080;
 	public static int PADDING = 25;
 	private double scale = 1.0;
+  private Color selectedColor = Color.BLACK;
 	
 	private Timer timer = new Timer((int)(1.0/30.0 * 1000), new ActionListener(){
 		public void actionPerformed(ActionEvent e){
@@ -105,4 +106,9 @@ public class Canvas extends JPanel{
 		this.setPreferredSize(new Dimension(width, height));
 		this.revalidate();
 	}
+
+  public void setForegroundColor(Color selectedColor) {
+    this.selectedColor = selectedColor;
+
+  }
 }
